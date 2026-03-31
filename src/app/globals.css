@@ -1,26 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Russo+One&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0f0f1a;
+  --foreground: #e2e8f0;
+  --primary: #8b5cf6;
+  --primary-light: #a78bfa;
+  --secondary: #06b6d4;
+  --accent: #f97316;
+  --surface: #1a1a2e;
+  --surface-light: #252540;
+  --border: #2d2d4a;
+  --muted: #64748b;
+  --danger: #ef4444;
+  --success: #22c55e;
+  --gold: #fbbf24;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-surface: var(--surface);
+  --color-surface-light: var(--surface-light);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --color-gold: var(--gold);
+  --font-heading: 'Russo One', sans-serif;
+  --font-body: 'Chakra Petch', sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Chakra Petch', sans-serif;
 }
+
+/* Neon glow effects */
+.neon-text {
+  text-shadow: 0 0 7px var(--primary), 0 0 10px var(--primary), 0 0 21px var(--primary);
+}
+
+.neon-border {
+  box-shadow: 0 0 5px var(--primary), inset 0 0 5px rgba(139, 92, 246, 0.1);
+}
+
+/* Rarity colors */
+.rarity-common { color: #94a3b8; }
+.rarity-uncommon { color: #22c55e; }
+.rarity-rare { color: #3b82f6; }
+.rarity-epic { color: #a855f7; }
+.rarity-legendary { color: #f97316; }
+
+.rarity-common-bg { background-color: rgba(148, 163, 184, 0.1); border-color: rgba(148, 163, 184, 0.3); }
+.rarity-uncommon-bg { background-color: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3); }
+.rarity-rare-bg { background-color: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); }
+.rarity-epic-bg { background-color: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.3); }
+.rarity-legendary-bg { background-color: rgba(249, 115, 22, 0.1); border-color: rgba(249, 115, 22, 0.3); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
