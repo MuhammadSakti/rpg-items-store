@@ -9,6 +9,7 @@ import ItemGrid from "@/components/ItemGrid";
 import ItemDetailModal from "@/components/ItemDetailModal";
 import StatsBar from "@/components/StatsBar";
 import Toast from "@/components/Toast";
+import { useCart } from "@/context/CartContext";
 
 export default function Home() {
   const [search, setSearch] = useState("");
@@ -18,8 +19,8 @@ export default function Home() {
   const [maxLevel, setMaxLevel] = useState(0);
   const [sortBy, setSortBy] = useState("name-asc");
   const [selectedItem, setSelectedItem] = useState<GameItem | null>(null);
-  const [cartItems, setCartItems] = useState<{ item: GameItem; quantity: number }[]>([]);
   const [toast, setToast] = useState({ visible: false, message: "" });
+  const { addToCart } = useCart();
 
   const filteredItems = useMemo(() => {
     let result = allItems.filter((item) => {
@@ -79,20 +80,10 @@ export default function Home() {
     [filteredItems]
   );
 
-  const cartCount = cartItems.reduce((sum, ci) => sum + ci.quantity, 0);
-
   const handleAddToCart = useCallback((item: GameItem, quantity = 1) => {
-    setCartItems((prev) => {
-      const existing = prev.find((ci) => ci.item.id === item.id);
-      if (existing) {
-        return prev.map((ci) =>
-          ci.item.id === item.id ? { ...ci, quantity: ci.quantity + quantity } : ci
-        );
-      }
-      return [...prev, { item, quantity }];
-    });
+    addToCart(item, quantity);
     setToast({ visible: true, message: `${item.name} added to cart!` });
-  }, []);
+  }, [addToCart]);
 
   const handleCloseToast = useCallback(() => {
     setToast({ visible: false, message: "" });
@@ -103,7 +94,7 @@ export default function Home() {
       className="flex min-h-screen flex-col bg-background"
       data-testid="app-container"
     >
-      <Header cartCount={cartCount} />
+      <Header />
 
       <main
         id="main-content"

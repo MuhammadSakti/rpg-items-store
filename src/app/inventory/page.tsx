@@ -1,11 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { items } from "@/data/items";
 import Header from "@/components/Header";
-import { Sword, Shield, Zap, Weight, Coins, Trash2 } from "lucide-react";
+import { Sword, Shield, Zap, Weight, Coins, Trash2, Lock } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 export default function InventoryPage() {
+  const router = useRouter();
+  const { isAuthenticated } = useAuth();
   const [inventory, setInventory] = useState(
     items.slice(0, 6).map((item) => ({ ...item, equipped: false }))
   );
@@ -22,9 +26,40 @@ export default function InventoryPage() {
     setInventory((prev) => prev.filter((item) => item.id !== id));
   };
 
+  if (!isAuthenticated) {
+    return (
+      <div className="flex min-h-screen flex-col bg-background" data-testid="inventory-page">
+        <Header />
+        <main className="mx-auto w-full max-w-md flex-1 px-4 py-6 sm:px-6 lg:px-8">
+          <div
+            className="rounded-xl border border-border bg-surface py-16 text-center"
+            data-testid="inventory-login-required"
+          >
+            <Lock className="mx-auto mb-4 h-12 w-12 text-muted" aria-hidden="true" />
+            <h1 className="mb-2 font-heading text-xl tracking-wider text-foreground">
+              LOGIN REQUIRED
+            </h1>
+            <p className="mb-6 text-sm text-muted">
+              You need to log in to access your inventory.
+            </p>
+            <button
+              type="button"
+              data-testid="btn-go-to-login"
+              className="rounded-lg bg-primary px-6 py-2.5 text-sm font-bold text-white transition-colors duration-200 hover:bg-primary-light cursor-pointer"
+              onClick={() => router.push("/login")}
+              aria-label="Go to login page"
+            >
+              Go to Login
+            </button>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="flex min-h-screen flex-col bg-background" data-testid="inventory-page">
-      <Header cartCount={0} />
+      <Header />
 
       <main
         className="mx-auto w-full max-w-5xl flex-1 px-4 py-6 sm:px-6 lg:px-8"
